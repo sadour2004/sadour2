@@ -34,6 +34,9 @@ const machines = [
   ...Array.from({ length: 4 }, (_, i) => ({ id: 90 + i + 1, name: `Flow forming ${String(i + 1).padStart(2, '0')}`, process_id: 6, status: 'working' })),
 ];
 
+// Temporary in-memory storage for machine status history
+let machineStatusHistory = [];
+
 // Authentification simple
 app.post('/api/auth/login', (req, res) => {
   const { username, password } = req.body;
@@ -61,7 +64,20 @@ app.put('/api/machines/:id/status', (req, res) => {
   const machine = machines.find(m => m.id == id);
   if (!machine) return res.status(404).json({ message: 'Machine non trouvée' });
   machine.status = status;
+  // Log the status change
+  machineStatusHistory.push({
+    machine_id: Number(id),
+    status,
+    changed_at: new Date().toISOString()
+  });
   res.json(machine);
+});
+
+// Endpoint to get machine status history
+app.get('/api/machines/:id/status-history', (req, res) => {
+  const { id } = req.params;
+  const history = machineStatusHistory.filter(h => h.machine_id == id);
+  res.json(history);
 });
 
 const PORT = 5000;

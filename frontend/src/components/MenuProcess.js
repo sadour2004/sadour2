@@ -9,6 +9,9 @@ export default function MenuProcess({ processes, onSelect }) {
           {proc.name}
         </div>
       ))}
+      <div style={{ margin: 10, cursor: 'pointer', fontWeight: 'bold', color: 'red' }} onClick={() => onSelect({ id: 'stopped', name: 'Stopped Machines' })}>
+        Stopped Machines
+      </div>
     </div>
   );
 } 

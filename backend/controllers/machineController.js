@@ -1,4 +1,4 @@
-import { getMachinesByProcess, updateMachineStatus } from '../models/machine.js';
+import { getMachinesByProcess, updateMachineStatus, logMachineStatusChange } from '../models/machine.js';
 
 export const getMachines = async (req, res) => {
   const { processId } = req.query;
@@ -14,5 +14,6 @@ export const setMachineStatus = async (req, res) => {
     return res.status(400).json({ message: 'Statut invalide' });
   }
   const machine = await updateMachineStatus(id, status);
+  await logMachineStatusChange(id, status);
   res.json(machine);
 }; 

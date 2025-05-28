@@ -18,20 +18,26 @@ export default function MachineCard({ machine }) {
   };
 
   return (
-    <div style={{
+    <div className="machine-card" style={{
       border: `2px solid ${statusColors[status]}`,
-      borderRadius: 8,
-      padding: 16,
-      minWidth: 180,
-      background: '#fff'
+      borderRadius: 12,
+      padding: 20,
+      minWidth: 200,
+      background: '#fff',
+      boxShadow: '0 2px 8px #0001',
+      marginBottom: 16,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      transition: 'box-shadow 0.2s',
     }}>
-      <h4>{machine.name}</h4>
-      <select value={status} onChange={handleChange}>
+      <h4 style={{ margin: '0 0 12px 0', color: '#1976d2', fontWeight: 700 }}>{machine.name}</h4>
+      <select value={status} onChange={handleChange} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #ccc', fontSize: 15, marginBottom: 10 }}>
         <option value="working">Working</option>
         <option value="maintenance">Under maintenance</option>
         <option value="stop">Stop</option>
       </select>
-      <div style={{ color: statusColors[status], marginTop: 8 }}>
+      <div style={{ color: statusColors[status], marginTop: 8, fontWeight: 600, fontSize: 15 }}>
         {status === 'working' && 'En fonctionnement'}
         {status === 'maintenance' && 'Under maintenance'}
         {status === 'stop' && 'Arrêtée'}
