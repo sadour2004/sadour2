@@ -15,7 +15,8 @@ const processes = [
   { id: 3, name: 'Heat treatment' },
   { id: 4, name: 'Machining' },
   { id: 5, name: 'Design cutting' },
-  { id: 6, name: 'Flow forming' }
+  { id: 6, name: 'Flow forming' },
+  { id: 7, name: 'Helium' }
 ];
 
 // Machines de démo
@@ -32,6 +33,8 @@ const machines = [
   ...Array.from({ length: 18 }, (_, i) => ({ id: 72 + i + 1, name: `Design cutting ${String(i).padStart(2, '0')}`, process_id: 5, status: 'working' })),
   // Flow forming: 01 à 04
   ...Array.from({ length: 4 }, (_, i) => ({ id: 90 + i + 1, name: `Flow forming ${String(i + 1).padStart(2, '0')}`, process_id: 6, status: 'working' })),
+  // Helium machines: 95 à 100
+  ...Array.from({ length: 6 }, (_, i) => ({ id: 94 + i + 1, name: `HeliumM${i + 1}`, process_id: 7, status: 'working' }))
 ];
 
 // Temporary in-memory storage for machine status history
