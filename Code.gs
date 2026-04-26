@@ -49,7 +49,7 @@ const CONFIG = {
 
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('Die Center')
+    .createMenu('Die Centre')
     .addItem('Open Die Centre Form', 'openDieCentreForm')
     .addItem('Rebuild Professional Form', 'setupFormSheet')
     .addSeparator()
@@ -93,7 +93,7 @@ function openDieCentreForm() {
   const ss = SpreadsheetApp.getActive();
   const formSheet = ss.getSheetByName(CONFIG.formSheetName);
   ss.setActiveSheet(formSheet);
-  toast_('Die Centre form is ready.', 'Die Center');
+  toast_('Die Centre form is ready.', 'Die Centre');
 }
 
 /**
@@ -219,7 +219,7 @@ function searchByReference() {
 
   const found = findReferenceRow_(dataSheet, ref);
   if (!found) {
-    toast_(`Référence "${ref}" introuvable dans "${CONFIG.dataSheetName}".`, 'Erreur');
+    toast_(`Référence "${ref}" introuvable dans les données.`, 'Erreur');
     return;
   }
 
@@ -335,7 +335,7 @@ function clearForm() {
   // Optional convenience default
   formSheet.getRange(CONFIG.ranges.dateHeure).setValue(new Date());
 
-  toast_('Formulaire vidé.', 'Die Center');
+  toast_('Formulaire vidé.', 'Die Centre');
 }
 
 /**
@@ -396,6 +396,7 @@ function getFormValues_(sheet) {
     reference: String(sheet.getRange(CONFIG.ranges.reference).getDisplayValue()).trim(),
     typeEquipement: String(sheet.getRange(CONFIG.ranges.typeEquipement).getDisplayValue()).trim(),
     typeAction: String(sheet.getRange(CONFIG.ranges.typeAction).getDisplayValue()).trim(),
+    dureeRaw: String(sheet.getRange(CONFIG.ranges.duree).getDisplayValue()).trim(),
     duree: Number(sheet.getRange(CONFIG.ranges.duree).getValue()),
     statut: String(sheet.getRange(CONFIG.ranges.statut).getDisplayValue()).trim()
   };
@@ -419,7 +420,9 @@ function validatePayload_(payload) {
   if (!payload.reference) return 'Le champ Référence est obligatoire.';
   if (!payload.typeEquipement) return "Le champ Type d'Équipement est obligatoire.";
   if (!payload.typeAction) return "Le champ Type d'Action est obligatoire.";
+  if (!payload.dureeRaw) return 'Le champ Durée (min) est obligatoire.';
   if (Number.isNaN(payload.duree)) return 'Le champ Durée (min) doit être un nombre.';
+  if (payload.duree <= 0) return 'Le champ Durée (min) doit être supérieur à 0.';
   if (!payload.statut) return 'Le champ Statut est obligatoire.';
   return '';
 }
@@ -484,7 +487,7 @@ function styleButton_(range, label, color) {
 }
 
 function toast_(message, title) {
-  SpreadsheetApp.getActive().toast(message, title || 'Die Center', 4);
+  SpreadsheetApp.getActive().toast(message, title || 'Die Centre', 4);
 }
 
 function isRangeIntersecting_(a, b) {
